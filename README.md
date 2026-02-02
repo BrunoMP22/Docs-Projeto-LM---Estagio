@@ -23,3 +23,22 @@ Excel (.xlsx)
 
 --------------------------------
 
+
+🔹 Subindo o n8n com Docker
+
+📄 Arquivo docker-compose.yml:
+
+    version: '3.1'
+    
+    services:
+      n8n:
+        image: n8nio/n8n
+        ports:
+          - 5678:5678
+        environment:
+          - N8N_HOST=localhost
+          - N8N_PORT=5678
+          - N8N_PROTOCOL=http
+        volumes:
+          - ./n8n_data:/home/node/.n8n
+
