@@ -1,26 +1,25 @@
-Docs-Projeto-LM
-🛠️ Tecnologias Utilizadas
+# Docs-Projeto-LM
 
-Docker
+## 🛠️ Tecnologias Utilizadas
+- Docker  
+- n8n  
+- API ViaCEP  
+- Excel (.xlsx)
 
-n8n
+---
 
-API ViaCEP
+## 🧱 Ambiente e Instalação
 
-Excel (.xlsx)
+### 🔹 Pré-requisitos
+- Docker Desktop instalado  
+- Navegador web  
 
-🧱 Ambiente e Instalação
+---
 
-🔹 Pré-requisitos
+## 🔹 Subindo o n8n com Docker
 
-Docker Desktop instalado
-
-Navegador web
-
-🔹 Subindo o n8n com Docker
-
-📄 Arquivo docker-compose.yml:
-
+### 📄 Arquivo `docker-compose.yml`
+```yaml
 version: '3.1'
 
 services:
@@ -34,55 +33,51 @@ services:
       - N8N_PROTOCOL=http
     volumes:
       - ./n8n_data:/home/node/.n8n
-▶️ Comando para iniciar o serviço:
+▶️ Comando para iniciar o serviço
+Execute o comando abaixo no terminal (CMD ou PowerShell), dentro da pasta onde está o arquivo docker-compose.yml:
 
-docker compose up -d (CMD DO COMPUTADOR - BARRA DE PESQUISA DENTRO DO ARQUIVO DOCKER)
-🌐 Acesso:
+docker compose up -d
+🌐 Acesso ao n8n
+Após subir o container, o n8n estará disponível em:
 
 http://localhost:5678
-🔄 Workflow de Automação:
-
+🔄 Workflow de Automação
 🔹 Etapas do Fluxo
-
-Trigger Manual
-
+1. Trigger Manual
 Execução manual do workflow para testes e demonstração.
 
-Edit Fields
+2. Edit Fields
+Criação de um campo chamado ceps, contendo uma lista fixa de CEPs.
 
-Criação de um campo ceps contendo uma lista fixa de CEPs.
-
-Split Out
-
+3. Split Out
 Conversão do array de CEPs em múltiplos itens individuais.
 
-Loop Over Items
-
+4. Loop Over Items
 Processamento de cada CEP separadamente.
 
-HTTP Request
-
+5. HTTP Request
 Requisição GET para a API pública ViaCEP.
 
-URL dinâmica construída via expressão:
+A URL é construída dinamicamente utilizando expressão no n8n:
 
-'https://viacep.com.br/ws/' + $json.ceps + '/json/' (Utilizei chaves em destaque do comando , obrigando o n8n a reconhecer a linha como codigo , ao inves de texto)
-Tratamento de erro configurado para não interromper o fluxo.
+'https://viacep.com.br/ws/' + $json.ceps + '/json/'
+O fluxo possui tratamento de erro configurado para não interromper a execução em caso de falha.
 
-Convert to File
-
+6. Convert to File
 Conversão dos dados retornados em um arquivo Excel (.xlsx).
 
-🌐 API Utilizada: 🔹 ViaCEP
+🌐 API Utilizada
+🔹 ViaCEP
+Endpoint:
 
-    URL:
+https://viacep.com.br/ws/{CEP}/json/
+API pública utilizada para consulta de endereços a partir de CEPs.
 
-      https://viacep.com.br/ws/{CEP}/json/
 📁 Saída do Projeto
-
 Arquivo gerado:
 
-data.xlsx
-👤 Autor:
+cep.xlsx
+O arquivo contém os dados retornados pela API ViaCEP para cada CEP processado.
 
+👤 Autor
 Bruno Primo
