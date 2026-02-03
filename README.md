@@ -33,8 +33,9 @@ services:
       - N8N_PROTOCOL=http
     volumes:
       - ./n8n_data:/home/node/.n8n
+
 ▶️ Comando para iniciar o serviço
-Execute o comando abaixo no terminal (CMD ou PowerShell), dentro da pasta onde está o arquivo docker-compose.yml:
+Execute o comando abaixo no terminal (CMD), dentro da pasta onde está o arquivo docker-compose.yml:
 
 docker compose up -d
 🌐 Acesso ao n8n
