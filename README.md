@@ -1,5 +1,4 @@
-# Docs-Projeto-LM
-
+Docs-Projeto-LM
 🛠️ Tecnologias Utilizadas
 
 Docker
@@ -10,102 +9,90 @@ API ViaCEP
 
 Excel (.xlsx)
 
-
---------------------------------
-
 🧱 Ambiente e Instalação
-
 🔹 Pré-requisitos
 
-  Docker Desktop instalado
-  
-  Navegador web
+Docker Desktop instalado
 
---------------------------------
-
+Navegador web
 
 🔹 Subindo o n8n com Docker
+📄 Arquivo docker-compose.yml
+version: '3.1'
 
-📄 Arquivo docker-compose.yml:
+services:
+  n8n:
+    image: n8nio/n8n
+    ports:
+      - 5678:5678
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+    volumes:
+      - ./n8n_data:/home/node/.n8n
 
-    version: '3.1'
-    
-    services:
-      n8n:
-        image: n8nio/n8n
-        ports:
-          - 5678:5678
-        environment:
-          - N8N_HOST=localhost
-          - N8N_PORT=5678
-          - N8N_PROTOCOL=http
-        volumes:
-          - ./n8n_data:/home/node/.n8n
+▶️ Comando para iniciar o serviço
 
+Execute o comando abaixo no terminal (CMD ou PowerShell), dentro da pasta onde está o arquivo docker-compose.yml:
 
-▶️ Comando para iniciar o serviço:
+docker compose up -d
 
-    docker compose up -d (CMD DO COMPUTADOR - BARRA DE PESQUISA DENTRO DO ARQUIVO DOCKER)
+🌐 Acesso ao n8n
 
+Após subir o container, o n8n estará disponível em:
 
-🌐 Acesso:
+http://localhost:5678
 
-    http://localhost:5678
-
-
-🔄 Workflow de Automação:
-
+🔄 Workflow de Automação
 🔹 Etapas do Fluxo
 
-  Trigger Manual
-  
-   Execução manual do workflow para testes e demonstração.
-  
-  Edit Fields
-  
-   Criação de um campo ceps contendo uma lista fixa de CEPs.
-  
-  Split Out
-  
-   Conversão do array de CEPs em múltiplos itens individuais.
-  
-  Loop Over Items
-  
-   Processamento de cada CEP separadamente.
-  
-  HTTP Request
-  
-   Requisição GET para a API pública ViaCEP.
-  
-  URL dinâmica construída via expressão:
-  
-    'https://viacep.com.br/ws/' + $json.ceps + '/json/' (Utilizei chaves em destaque do comando , obrigando o n8n a reconhecer a linha como codigo , ao inves de texto)
-  
-   Tratamento de erro configurado para não interromper o fluxo.
-  
-  Convert to File
-  
-   Conversão dos dados retornados em um arquivo Excel (.xlsx).
+1. Trigger Manual
+Execução manual do workflow, utilizada para testes e demonstração do funcionamento do fluxo.
+
+2. Edit Fields
+Criação de um campo chamado ceps, contendo uma lista fixa de CEPs para consulta.
+
+3. Split Out
+Conversão do array de CEPs em múltiplos itens individuais, permitindo o processamento unitário.
+
+4. Loop Over Items
+Iteração sobre cada CEP, garantindo que as requisições sejam feitas uma a uma.
+
+5. HTTP Request
+Requisição do tipo GET para a API pública ViaCEP.
+
+A URL é construída dinamicamente utilizando expressão no n8n:
+
+'https://viacep.com.br/ws/' + $json.ceps + '/json/'
 
 
-  🌐 API Utilizada:
-    🔹 ViaCEP
+A expressão foi configurada no modo Expression, permitindo que o n8n interprete o valor como código e não como texto estático.
 
-        URL:
+O tratamento de erro foi configurado para que falhas em um item não interrompam a execução do fluxo.
 
-          https://viacep.com.br/ws/{CEP}/json/
+6. Convert to File
+Conversão dos dados retornados pela API em um arquivo Excel (.xlsx).
 
+🌐 API Utilizada
+🔹 ViaCEP
 
+Endpoint:
 
-  📁 Saída do Projeto
-
-  Arquivo gerado:
-
-    data.xlsx
-
+https://viacep.com.br/ws/{CEP}/json/
 
 
-  👤 Autor:
+API pública utilizada para consulta de endereços a partir de CEPs.
 
-  Bruno Primo
+📁 Saída do Projeto
 
+Arquivo gerado em formato Excel:
+
+data.xlsx
+
+
+O arquivo contém os dados retornados pela API ViaCEP para cada CEP processado no fluxo.
+
+👤 Autor
+
+Bruno Primo
