@@ -8,6 +8,8 @@ n8n
 
 API ViaCEP
 
+API BrasilAPI (CNPJ)
+
 Excel (.xlsx)
 
 
@@ -55,7 +57,7 @@ Excel (.xlsx)
 
 🔄 Workflow de Automação:
 
-🔹 Etapas do Fluxo
+🔹 Etapas do Fluxo (CEP)
 
   Trigger Manual
   
@@ -79,7 +81,7 @@ Excel (.xlsx)
   
   URL dinâmica construída via expressão:
   
-    'https://viacep.com.br/ws/' + $json.ceps + '/json/' (Utilizei chaves em destaque do comando , obrigando o n8n a reconhecer a linha como codigo , ao inves de texto)
+    'https://viacep.com.br/ws/' + $json.ceps + '/json/'
   
    Tratamento de erro configurado para não interromper o fluxo.
   
@@ -88,23 +90,70 @@ Excel (.xlsx)
    Conversão dos dados retornados em um arquivo Excel (.xlsx).
 
 
-  🌐 API Utilizada:
-    🔹 ViaCEP
+--------------------------------
 
-        URL:
+🔹 Etapas do Fluxo (CNPJ)
 
-          https://viacep.com.br/ws/{CEP}/json/
+  Trigger Manual
+  
+   Execução manual do workflow para testes e demonstração.
+  
+  Edit Fields
+  
+   Criação de um campo cnpj contendo uma lista fixa de CNPJs.
+  
+  Split Out
+  
+   Conversão do array de CNPJs em múltiplos itens individuais.
+  
+  Loop Over Items
+  
+   Processamento de cada CNPJ separadamente.
+  
+  HTTP Request
+  
+   Requisição GET para a API pública BrasilAPI (CNPJ).
+  
+  URL dinâmica construída via expressão:
+  
+    'https://brasilapi.com.br/api/cnpj/v1/' + $json.cnpj
+  
+   Tratamento de erro configurado para não interromper o fluxo.
+  
+  Convert to File
+  
+   Conversão dos dados retornados em um arquivo Excel (.xlsx).
 
 
+--------------------------------
 
-  📁 Saída do Projeto
+🌐 API Utilizada:
 
-  Arquivo gerado:
+  🔹 ViaCEP
 
-    cep.xlsx
+      URL:
+        https://viacep.com.br/ws/{CEP}/json/
 
 
+  🔹 BrasilAPI (CNPJ)
 
-  👤 Autor:
+      URL:
+        https://brasilapi.com.br/api/cnpj/v1/{CNPJ}
 
-  Bruno Primo
+
+--------------------------------
+
+📁 Saída do Projeto
+
+Arquivos gerados:
+
+  ceps.xlsx
+
+  cnpjs.xlsx
+
+
+--------------------------------
+
+👤 Autor:
+
+Bruno Primo
